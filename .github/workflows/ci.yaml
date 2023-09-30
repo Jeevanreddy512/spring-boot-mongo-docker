@@ -30,7 +30,8 @@ jobs:
           distribution: 'adopt'
 
       - name: Run SonarScanner
-        run: |
-             sonar-scanner -X \
-               -Dsonar.login=$SONAR_TOKEN \
-               -Dsonar.host.url=$SONAR_HOST_URL
+        uses: kitabisa/sonarqube-action@v1.2.0
+        with:
+          host: ${{ secrets.SONAR_HOST_URL }}
+          login: ${{ secrets.SONAR_TOKEN }}
+          projectKey: Github-Action-Scan #test
