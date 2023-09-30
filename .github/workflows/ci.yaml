@@ -9,26 +9,34 @@ on:
       types: [opened, synchronize, reopened]
 
 name: SonarQube Scan
+
 jobs:
-  build:
+  sonarqube-analysis:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
+
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Define your secret in GitHub repository settings
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml 
-      
-    - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
-      env:
-          host: ${{ secrets.SONARQUBE_HOST }}
-          login: ${{ secrets.SONAR_TOKEN }}
-          projectKey: github-mvn-action #test
-      with:
-          # Additional arguments for the sonarcloud scanner
-           illegal-access: warn
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+
+      - name: Run SonarScanner
+        run: |
+          # Download and install SonarScanner if needed
+          if [ ! -f sonar-scanner.zip ]; then
+            curl -o sonar-scanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-x.y.z.zip # Replace with the desired version
+            unzip sonar-scanner.zip
+          fi
+
+          # Run SonarScanner analysis
+          ./sonar-scanner \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.host.url=$SONAR_HOST_URL
