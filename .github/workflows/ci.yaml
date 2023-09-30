@@ -33,7 +33,7 @@ jobs:
           # Download and install SonarScanner if needed
           if [ ! -f sonar-scanner.zip ]; then
             curl -o sonar-scanner -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-x.y.z.zip # Replace with the desired version
-            unzip sonar-scanner.zip
+            unzip sonar-scanner.zip -d sonar-scanner
           fi
           # Run SonarScanner analysis
           ./sonar-scanner \
