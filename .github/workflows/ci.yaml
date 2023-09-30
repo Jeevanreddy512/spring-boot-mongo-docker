@@ -30,8 +30,16 @@ jobs:
           distribution: 'adopt'
 
       - name: Run SonarScanner
-        uses: kitabisa/sonarqube-action@v1.2.0
-        with:
-          host: ${{ secrets.SONAR_HOST_URL }}
-          login: ${{ secrets.SONAR_TOKEN }}
-          projectKey: Github-Action-Scan #test
+        run: |
+          # Download and install SonarScanner if needed
+          if [ ! -f sonar-scanner.zip ]; then
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip
+            unzip sonar-scanner-cli-4.2.0.1873-linux.zip
+            mv sonar-scanner-4.2.0.1873-linux /opt/sonar-scanner
+            ls-ltr /opt/sonar-scanner
+            chmod +x /opt/sonar-scanner
+          fi
+          # Run SonarScanner analysis
+          ./opt/sonar-scanner \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.host.url=$SONAR_HOST_URL
