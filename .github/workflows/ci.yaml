@@ -29,17 +29,8 @@ jobs:
           java-version: 17
           distribution: 'adopt'
 
-      - name: Run SonarScanner
-        run: |
-          # Download and install SonarScanner if needed
-          if [ ! -f sonar-scanner.zip ]; then
-            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.2.0.1873-linux.zip
-            unzip sonar-scanner-cli-4.2.0.1873-linux.zip
-            mv sonar-scanner-4.2.0.1873-linux /opt/sonar-scanner
-            ls-ltr /opt/sonar-scanner
-            chmod +x /opt/sonar-scanner
-          fi
-          # Run SonarScanner analysis
-          ./opt/sonar-scanner \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.host.url=$SONAR_HOST_URL
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
