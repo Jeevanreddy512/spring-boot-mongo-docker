@@ -36,9 +36,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }}
-          sonar.projectKey: "github-mvn-action"
+          sonar.projectKey: "github-mvn-action1"
           LC_ALL: "ru_RU.UTF-8"
-          sonar.sources: src/main/java
+          sonar.sources: .
         with:
    #       projectBaseDir: app/src
           args: >
