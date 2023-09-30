@@ -24,9 +24,11 @@ jobs:
       run: mvn -B package --file pom.xml 
       
     - name: SonarQube Scan
-      uses: kitabisa/sonarqube-action@v1.2.0
+      uses: SonarSource/sonarqube-scan-action@7295e71c9583053f5bf40e9d4068a0c974603ec8
+      env:
+          host: ${{ secrets.SONARQUBE_HOST }}
+          login: ${{ secrets.SONAR_TOKEN }}
+          projectKey: github-mvn-action #test
       with:
-        host: ${{ secrets.SONARQUBE_HOST }}
-        login: ${{ secrets.SONAR_TOKEN }}
-        projectKey: github-mvn-action #test
-        illegal-access: warn
+          # Additional arguments for the sonarcloud scanner
+           illegal-access: warn
