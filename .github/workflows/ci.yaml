@@ -28,4 +28,4 @@ jobs:
       with:
         host: ${{ secrets.SONARQUBE_HOST }}
         login: ${{ secrets.SONAR_TOKEN }}
-        projectKey: Github-Scan #test
+        projectKey: github-mvn-action #test
