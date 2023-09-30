@@ -25,10 +25,8 @@ jobs:
       
     - name: SonarQube Scan
       uses: kitabisa/sonarqube-action@v1.2.0
-      env:
+      with:
         host: ${{ secrets.SONARQUBE_HOST }}
         login: ${{ secrets.SONAR_TOKEN }}
         projectKey: github-mvn-action #test
-      with:
-        args:
-          illegal-access=warn
+        illegal-access: warn
